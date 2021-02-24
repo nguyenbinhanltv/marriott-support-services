@@ -1,0 +1,53 @@
+<nz-table
+      #dynamicTable
+      [nzScroll]="{ y: '60%' }"
+      [nzData]="listOfData"
+      [nzTableLayout]="settingValue.tableLayout"
+      [nzBordered]="settingValue.bordered"
+      [nzSimple]="settingValue.simple"
+      [nzLoading]="settingValue.loading"
+      [nzPaginationType]="settingValue.paginationType"
+      [nzPaginationPosition]="settingValue.position"
+      [nzShowSizeChanger]="settingValue.sizeChanger"
+      [nzFrontPagination]="settingValue.pagination"
+      [nzShowPagination]="settingValue.pagination"
+      [nzFooter]="settingValue.footer ? 'Here is Footer' : null"
+      [nzTitle]="settingValue.title ? 'Enquiry List' : null"
+      [nzSize]="settingValue.size"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+    >
+      <thead>
+        <tr *ngIf="settingValue.header">
+          <th nzWidth="40px" *ngIf="settingValue.expandable" [nzLeft]="fixedColumn"></th>
+          <th
+            *ngIf="settingValue.checkbox"
+            nzWidth="60px"
+            [(nzChecked)]="allChecked"
+            [nzLeft]="fixedColumn"
+            [nzIndeterminate]="indeterminate"
+            (nzCheckedChange)="checkAll($event)"
+          ></th>
+          <th [nzLeft]="fixedColumn">Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>File</th>
+          <th [nzRight]="fixedColumn">Submit time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of dynamicTable.data">
+          <tr>
+            <td [nzLeft]="fixedColumn" *ngIf="settingValue.expandable" [(nzExpand)]="data.expand"></td>
+            <td [nzLeft]="fixedColumn" *ngIf="settingValue.checkbox" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+            <td [nzLeft]="fixedColumn">{{ data.name }}</td>
+            <td>{{ data.email }}</td>
+            <td [nzEllipsis]="settingValue.ellipsis">{{ data.subject }}</td>
+            <td>{{ data.file }}</td>
+            <td>{{ data.submitTime }}</td>
+          </tr>
+          <tr *ngIf="settingValue.expandable" [nzExpand]="data.expand">
+            <span>{{ data.message }}</span>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>

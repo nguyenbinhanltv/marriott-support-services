@@ -1,0 +1,57 @@
+<nz-layout class="app-layout">
+  <nz-back-top></nz-back-top>
+  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <a href="https://ng.ant.design/" target="_blank">
+        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
+        <h1>Marriott Services</h1>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="staff-management">Staff Management</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="client-management">Client Management</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="enquiry-management">Enquiry Management</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="activity-management">Activity Dashboard</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+        </span>
+        <nz-avatar nzSize="large" nzSrc="" class="header-avatar" nz-dropdown [nzDropdownMenu]="menu" style="cursor: pointer;"></nz-avatar>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+          <ul nz-menu nzSelectable>
+            <li nz-menu-item routerLink="account-settings">Account settings</li>
+            <li nz-menu-item (click)="authService.signOut()">Logout</li>
+          </ul>
+        </nz-dropdown-menu>
+      </div>
+    </nz-header>
+    <nz-content>
+      <nz-breadcrumb>
+        <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+        <nz-breadcrumb-item *ngFor="let route of currentRoute">
+          {{ route }}
+        </nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
