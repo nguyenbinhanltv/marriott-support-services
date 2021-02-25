@@ -7,4 +7,5 @@ export interface Enquiry {
   subject: string;
   message: string;
   filePath?: string;
+  submitTime: string;
 }

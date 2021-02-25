@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
       subject: ['', [Validators.required]],
       message: ['', [Validators.required]],
       filePath: ['', [Validators.required]],
+      submitTime: ['', [Validators.required]],
       agree: [false]
     });
   }
@@ -60,7 +61,6 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.validateLoginForm.value) {
-      console.log(this.validateLoginForm.value);
       this.authService.login(this.validateLoginForm.value).subscribe({
         next: val => {
           this.msg.success("Login successfully");
@@ -78,6 +78,7 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.validateEnquiryForm.value && this.validateEnquiryForm.controls['filePath']) {
+      this.validateEnquiryForm.controls['submitTime'].setValue(new Date(Date.now()).toLocaleString());
       this.enquiryService.addEnquity(this.validateEnquiryForm.value).subscribe({
         next: val => this.msg.success("Thanks for your enquiry ^^"),
         error: e => this.msg.error("Something wrong")

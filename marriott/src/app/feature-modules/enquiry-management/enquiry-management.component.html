@@ -1,26 +1,26 @@
 <nz-table
       #dynamicTable
-      [nzScroll]="{ y: '60%' }"
+      [nzScroll]="{ y: '60vh' }"
       [nzData]="listOfData"
-      [nzTableLayout]="settingValue.tableLayout"
-      [nzBordered]="settingValue.bordered"
-      [nzSimple]="settingValue.simple"
-      [nzLoading]="settingValue.loading"
-      [nzPaginationType]="settingValue.paginationType"
-      [nzPaginationPosition]="settingValue.position"
-      [nzShowSizeChanger]="settingValue.sizeChanger"
-      [nzFrontPagination]="settingValue.pagination"
-      [nzShowPagination]="settingValue.pagination"
-      [nzFooter]="settingValue.footer ? 'Here is Footer' : null"
-      [nzTitle]="settingValue.title ? 'Enquiry List' : null"
-      [nzSize]="settingValue.size"
+      [nzTableLayout]="'auto'"
+      [nzBordered]="true"
+      [nzSimple]="false"
+      [nzLoading]="false"
+      [nzPaginationType]="'small'"
+      [nzPaginationPosition]="'bottom'"
+      [nzShowSizeChanger]="true"
+      [nzFrontPagination]="true"
+      [nzShowPagination]="true"
+      [nzFooter]="true ? 'Here is Footer' : null"
+      [nzTitle]="true ? 'Enquiry List' : null"
+      [nzSize]="'default'"
       (nzCurrentPageDataChange)="currentPageDataChange($event)"
     >
       <thead>
-        <tr *ngIf="settingValue.header">
-          <th nzWidth="40px" *ngIf="settingValue.expandable" [nzLeft]="fixedColumn"></th>
+        <tr *ngIf="true">
+          <th nzWidth="40px" *ngIf="true" [nzLeft]="fixedColumn"></th>
           <th
-            *ngIf="settingValue.checkbox"
+            *ngIf="true"
             nzWidth="60px"
             [(nzChecked)]="allChecked"
             [nzLeft]="fixedColumn"
@@ -37,15 +37,15 @@
       <tbody>
         <ng-container *ngFor="let data of dynamicTable.data">
           <tr>
-            <td [nzLeft]="fixedColumn" *ngIf="settingValue.expandable" [(nzExpand)]="data.expand"></td>
-            <td [nzLeft]="fixedColumn" *ngIf="settingValue.checkbox" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+            <td [nzLeft]="fixedColumn" [(nzExpand)]="data.expand"></td>
+            <td [nzLeft]="fixedColumn" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
             <td [nzLeft]="fixedColumn">{{ data.name }}</td>
             <td>{{ data.email }}</td>
-            <td [nzEllipsis]="settingValue.ellipsis">{{ data.subject }}</td>
-            <td>{{ data.file }}</td>
+            <td [nzEllipsis]="true">{{ data.subject }}</td>
+            <td>{{ data.filePath }}</td>
             <td>{{ data.submitTime }}</td>
           </tr>
-          <tr *ngIf="settingValue.expandable" [nzExpand]="data.expand">
+          <tr *ngIf="true" [nzExpand]="data.expand">
             <span>{{ data.message }}</span>
           </tr>
         </ng-container>
