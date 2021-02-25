@@ -1,53 +1,34 @@
-<nz-table
-      #dynamicTable
-      [nzScroll]="{ y: '60vh' }"
-      [nzData]="listOfData"
-      [nzTableLayout]="'auto'"
-      [nzBordered]="true"
-      [nzSimple]="false"
-      [nzLoading]="false"
-      [nzPaginationType]="'small'"
-      [nzPaginationPosition]="'bottom'"
-      [nzShowSizeChanger]="true"
-      [nzFrontPagination]="true"
-      [nzShowPagination]="true"
-      [nzFooter]="true ? 'Here is Footer' : null"
-      [nzTitle]="true ? 'Enquiry List' : null"
-      [nzSize]="'default'"
-      (nzCurrentPageDataChange)="currentPageDataChange($event)"
-    >
-      <thead>
-        <tr *ngIf="true">
-          <th nzWidth="40px" *ngIf="true" [nzLeft]="fixedColumn"></th>
-          <th
-            *ngIf="true"
-            nzWidth="60px"
-            [(nzChecked)]="allChecked"
-            [nzLeft]="fixedColumn"
-            [nzIndeterminate]="indeterminate"
-            (nzCheckedChange)="checkAll($event)"
-          ></th>
-          <th [nzLeft]="fixedColumn">Name</th>
-          <th>Email</th>
-          <th>Subject</th>
-          <th>File</th>
-          <th [nzRight]="fixedColumn">Submit time</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-container *ngFor="let data of dynamicTable.data">
-          <tr>
-            <td [nzLeft]="fixedColumn" [(nzExpand)]="data.expand"></td>
-            <td [nzLeft]="fixedColumn" [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
-            <td [nzLeft]="fixedColumn">{{ data.name }}</td>
-            <td>{{ data.email }}</td>
-            <td [nzEllipsis]="true">{{ data.subject }}</td>
-            <td>{{ data.filePath }}</td>
-            <td>{{ data.submitTime }}</td>
-          </tr>
-          <tr *ngIf="true" [nzExpand]="data.expand">
-            <span>{{ data.message }}</span>
-          </tr>
-        </ng-container>
-      </tbody>
-    </nz-table>
+<nz-table #dynamicTable [nzScroll]="{ y: '60vh' }" [nzData]="listOfData" [nzTableLayout]="'auto'" [nzBordered]="true"
+  [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'"
+  [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true"
+  [nzFooter]="true ? 'Here is Footer' : null" [nzTitle]="true ? 'Enquiry List' : null" [nzSize]="'default'"
+  (nzCurrentPageDataChange)="currentPageDataChange($event)">
+  <thead>
+    <tr *ngIf="true">
+      <th nzWidth="40px" *ngIf="true" [nzLeft]="fixedColumn"></th>
+      <th [nzLeft]="fixedColumn">Name</th>
+      <th>Email</th>
+      <th>Subject</th>
+      <th>File</th>
+      <th [nzRight]="fixedColumn">Submit time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of dynamicTable.data">
+      <tr>
+        <td [nzLeft]="fixedColumn" [(nzExpand)]="data.expand"></td>
+        <td [nzLeft]="fixedColumn">{{ data.name }}</td>
+        <td>{{ data.email }}</td>
+        <td [nzEllipsis]="true">{{ data.subject }}</td>
+        <td *ngIf="data.filePath">
+          <img nz-image width="50px" height="50px"
+            [nzSrc]="data.filePath" alt="" style="cursor: pointer;"/>
+        </td>
+        <td>{{ data.submitTime }}</td>
+      </tr>
+      <tr *ngIf="true" [nzExpand]="data.expand">
+        <span>{{ data.message }}</span>
+      </tr>
+    </ng-container>
+  </tbody>
+</nz-table>

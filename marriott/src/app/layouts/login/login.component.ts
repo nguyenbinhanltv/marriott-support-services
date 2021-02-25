@@ -50,7 +50,8 @@ export class LoginComponent implements OnInit {
       message: ['', [Validators.required]],
       filePath: ['', [Validators.required]],
       submitTime: ['', [Validators.required]],
-      agree: [false]
+      agree: [false],
+      expand: [false]
     });
   }
 

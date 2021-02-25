@@ -11,6 +11,7 @@ const routes: Routes = [
       { path: 'staff-management', loadChildren: () => import('../../feature-modules/staff-management/staff-management.module').then(m => m.StaffManagementModule) },
       { path: 'client-management', loadChildren: () => import('../../feature-modules/client-management/client-management.module').then(m => m.ClientManagementModule) },
       { path: 'activity-management', loadChildren: () => import('../../feature-modules/activity-management/activity-management.module').then(m => m.ActivityManagementModule) },
+      { path: 'account-settings', loadChildren: () => import('../../feature-modules/account-settings/account-settings.module').then(m => m.AccountSettingsModule) },
       { path: '**', pathMatch: 'full', redirectTo: 'enquiry-management' },
     ], canActivate: [AuthGuard], canActivateChild: [AuthGuard]
   },

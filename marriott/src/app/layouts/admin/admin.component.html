@@ -33,7 +33,7 @@
         <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
           <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
         </span>
-        <nz-avatar nzSize="large" nzSrc="" class="header-avatar" nz-dropdown [nzDropdownMenu]="menu" style="cursor: pointer;"></nz-avatar>
+        <nz-avatar nzSize="large" [nzSrc]="authService.getAdmin.avatarPath" class="header-avatar" nz-dropdown [nzDropdownMenu]="menu" style="cursor: pointer;"></nz-avatar>
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <ul nz-menu nzSelectable>
             <li nz-menu-item routerLink="account-settings">Account settings</li>

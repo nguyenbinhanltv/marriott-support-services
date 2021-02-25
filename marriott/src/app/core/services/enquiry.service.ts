@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Enquiry } from '../models/enquiry.model';
 
@@ -24,7 +25,10 @@ export class EnquiryService {
     });
   }
 
-  getEnquiries(): Observable<Enquiry[]> {
-    return this.http.get<Enquiry[]>(environment.apiEndpoint + "enquiries/all");
+  getEnquiries(): Observable<any> {
+    return this.http.get<any>(environment.apiEndpoint + "enquiries/all")
+      .pipe(
+        map(res => res.data as Enquiry[])
+      );
   }
 }

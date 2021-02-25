@@ -5,6 +5,7 @@ import { EnquiryManagementRoutingModule } from './enquiry-management-routing.mod
 import { EnquiryManagementComponent } from './enquiry-management.component';
 
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 
 @NgModule({
@@ -13,7 +14,8 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     CommonModule,
     EnquiryManagementRoutingModule,
     NzTableModule,
-    NzDividerModule
+    NzDividerModule,
+    NzImageModule
   ]
 })
 export class EnquiryManagementModule { }

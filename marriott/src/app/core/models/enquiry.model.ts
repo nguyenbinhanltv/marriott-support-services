@@ -8,4 +8,6 @@ export interface Enquiry {
   message: string;
   filePath?: string;
   submitTime: string;
+  expand: boolean;
+  disabled?: boolean;
 }

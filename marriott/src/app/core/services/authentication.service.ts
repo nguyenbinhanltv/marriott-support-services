@@ -18,7 +18,14 @@ export class AuthenticationService {
     private http: HttpClient,
     private router: Router
     ) {
+      this.getTokenFromLocalStorage();
+      this.getAdminFromLocalStorage();
+  }
 
+  public getAllStaff(): Observable<any> {
+    return this.http.get<any>(environment.apiEndpoint + 'users/admin/all').pipe(
+      map(res => res.data)
+    );
   }
 
   public login(loginForm: {
@@ -54,7 +61,7 @@ export class AuthenticationService {
     this.router.navigate(['']);
   }
 
-  private getUserFromLocalStorage(): void {
+  private getAdminFromLocalStorage(): void {
     this.admin = JSON.parse(localStorage.getItem('admin') as string);
   }
 
