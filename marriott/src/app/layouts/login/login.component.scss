@@ -1,10 +1,16 @@
 nz-form-item {
   width: 100%;
 }
+.upload-file {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 
 nz-upload {
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 
 .login-form-margin {

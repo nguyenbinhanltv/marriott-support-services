@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   loading = false;
 
   task!: AngularFireUploadTask;
-  snapshot!: Observable<any>;
+  percentage!: Observable<number>;
 
   constructor(
     private fb: FormBuilder,
@@ -62,8 +62,11 @@ export class LoginComponent implements OnInit {
     if (this.validateLoginForm.value) {
       console.log(this.validateLoginForm.value);
       this.authService.login(this.validateLoginForm.value).subscribe({
-        next: val => this.router.navigateByUrl('admin'),
-        error: e => console.log(e)
+        next: val => {
+          this.msg.success("Login successfully");
+          this.router.navigateByUrl('admin');
+        },
+        error: e => this.msg.error("Login fail")
       });
     }
   }
@@ -74,11 +77,10 @@ export class LoginComponent implements OnInit {
       this.validateEnquiryForm.controls[i].updateValueAndValidity();
     }
 
-    if (this.validateEnquiryForm.value) {
-      console.log(this.validateEnquiryForm.value);
+    if (this.validateEnquiryForm.value && this.validateEnquiryForm.controls['filePath']) {
       this.enquiryService.addEnquity(this.validateEnquiryForm.value).subscribe({
-        next: val => console.log(val),
-        error: e => console.log(e)
+        next: val => this.msg.success("Thanks for your enquiry ^^"),
+        error: e => this.msg.error("Something wrong")
       });
     }
   }
@@ -87,45 +89,37 @@ export class LoginComponent implements OnInit {
     Promise.resolve().then(() => this.validateEnquiryForm.controls.checkPassword.updateValueAndValidity());
   }
 
-  beforeUpload = (file: NzUploadFile, _fileList: NzUploadFile[]) => {
-    return new Observable((observer: Observer<boolean>) => {
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-        this.msg.error('You can only upload JPG file!');
-        observer.complete();
-        return;
-      }
-      const isLt2M = file.size! / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.msg.error('Image must smaller than 2MB!');
-        observer.complete();
-        return;
-      }
-      observer.next(isJpgOrPng && isLt2M);
-      observer.complete();
-    });
-  };
-
-  handleChange(info: { file: NzUploadFile }): void {
-
+  handleChange(event: any): void {
+    const file = event.target.files[0];
 
     // The storage path
-    const filePath = `enquiries/${Date.now()}_${info.file.name}`;
+    const filePath = `enquiries/${Date.now()}_${file.name}`;
 
     // Reference to storage bucket
     const fileRef = this.storage.ref(filePath);
 
-    // The main task
-    this.task = this.storage.upload(filePath, info.file);
+    if (file) {
+      // The main task
+      this.task = this.storage.upload(filePath, file);
 
-    this.snapshot = this.task.snapshotChanges().pipe(
-      tap(console.log),
-      // The file's download URL
-      finalize(async () => {
-        const filePath = await fileRef.getDownloadURL().toPromise();
-        this.validateEnquiryForm.controls['filePath'].setValue(filePath);
-        console.log(this.validateEnquiryForm.value);
-      }),
-    );
+      // Progress monitoring
+      this.percentage = this.task.percentageChanges() as Observable<number>;
+
+      this.task.snapshotChanges().pipe(
+        tap(console.log),
+        // The file's download URL
+        finalize(async () => {
+          fileRef.getDownloadURL().toPromise().then(url => {
+            this.validateEnquiryForm.controls['filePath'].setValue(url);
+          });
+        }),
+      ).subscribe();
+    } else {
+      this.msg.error(`${file.name} file upload failed.`);
+    }
+  }
+
+  getInt(value: any) {
+    return Number.parseInt(value, 10);
   }
 }

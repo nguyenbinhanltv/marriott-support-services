@@ -14,6 +14,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 
 
@@ -23,12 +25,14 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
     CommonModule,
     LoginRoutingModule,
     NzFormModule,
+    NzProgressModule,
     NzInputModule,
     NzButtonModule,
     NzCheckboxModule,
     NzSelectModule,
     NzUploadModule,
     NzIconModule,
+    NzModalModule,
     ReactiveFormsModule,
     NzMessageModule,
     AngularFireStorageModule

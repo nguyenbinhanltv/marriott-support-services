@@ -81,11 +81,14 @@
             <textarea formControlName="message" nz-input rows="2"></textarea>
           </nz-form-control>
         </nz-form-item>
-        <div style="display: flex; justify-content: center;">
-          <nz-upload [nzHeaders]="{ authorization: 'authorization-text' }" [nzBeforeUpload]="beforeUpload"
-            (nzChange)="handleChange($event)">
-            <button nz-button><i nz-icon nzType="upload"></i>Click to Upload</button>
+        <div class="upload-file">
+          <nz-upload [nzHeaders]="{ authorization: 'authorization-text' }" nzType="drag" [nzDisabled]="true">
+            <p class="ant-upload-drag-icon">
+              <i nz-icon nzType="inbox"></i>
+            </p>
+            <input type="file" (change)="handleChange($event)">
           </nz-upload>
+          <nz-progress *ngIf="percentage | async as pct" [nzPercent]="getInt(pct)" nzSize="small"></nz-progress>
         </div>
         <nz-form-item nz-row class="register-area">
           <nz-form-control [nzSpan]="14" [nzOffset]="6">
@@ -99,7 +102,7 @@
         </nz-form-item>
         <nz-form-item nz-row class="register-area">
           <nz-form-control [nzSpan]="14" [nzOffset]="6">
-            <button nz-button nzType="primary">Submit</button>
+            <button nz-button nzType="primary" [disabled]="!validateEnquiryForm.value.agree">Submit</button>
           </nz-form-control>
         </nz-form-item>
       </form>
