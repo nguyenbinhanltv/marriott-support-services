@@ -9,8 +9,12 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 
 @NgModule({
@@ -23,7 +27,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     NzButtonModule,
     NzCheckboxModule,
     NzSelectModule,
-    ReactiveFormsModule
-  ]
+    NzUploadModule,
+    NzIconModule,
+    ReactiveFormsModule,
+    NzMessageModule,
+    AngularFireStorageModule
+  ],
+  providers: [NzMessageService]
 })
 export class LoginModule { }

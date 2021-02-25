@@ -4,7 +4,16 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: "http://localhost:3001/v1/"
+  apiEndpoint: "http://localhost:3001/v1/",
+  firebase: {
+    apiKey: "AIzaSyC7xNo1tzcO5wp5Fq-ysalr-WLA60gkoYE",
+    authDomain: "marriott-support-services.firebaseapp.com",
+    projectId: "marriott-support-services",
+    storageBucket: "marriott-support-services.appspot.com",
+    messagingSenderId: "1073344779392",
+    appId: "1:1073344779392:web:8dcb8a8d681ec668898265",
+    measurementId: "G-VWMN25M1FR"
+  }
 };
 
 /*

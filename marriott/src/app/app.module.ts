@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
 import { httpInterceptorProviders } from './core/interceptors';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment';
 
 registerLocaleData(en);
 
@@ -27,6 +29,7 @@ registerLocaleData(en);
     BrowserAnimationsModule,
     IconsProviderModule,
     ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, httpInterceptorProviders],
   bootstrap: [AppComponent]
