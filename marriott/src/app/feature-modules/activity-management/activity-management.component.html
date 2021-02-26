@@ -1,1 +1,92 @@
-<p>activity-management works!</p>
+<app-activity-form></app-activity-form>
+<nz-table #dynamicTable [nzScroll]="{ y: '60vh' }" [nzData]="listOfData" [nzTableLayout]="'auto'" [nzBordered]="true"
+  [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'"
+  [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true"
+  [nzFooter]="true ? 'Here is Footer' : null" [nzTitle]="true ? 'Activity List' : null" [nzSize]="'default'"
+  (nzCurrentPageDataChange)="currentPageDataChange($event)">
+  <thead>
+    <tr>
+      <th nzWidth="40px" *ngIf="true" [nzLeft]="fixedColumn"></th>
+      <th [nzLeft]="fixedColumn">Status</th>
+      <th>Title</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th [nzRight]="fixedColumn">Billing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let data of dynamicTable.data">
+      <tr>
+        <td [nzLeft]="fixedColumn" [(nzExpand)]="data.expand"></td>
+        <td>
+          <nz-badge [nzStatus]="'success'" [nzText]="'In Process'" *ngIf="compareDate(data.startDate, data.endDate)">
+          </nz-badge>
+          <nz-badge [nzStatus]="'error'" [nzText]="'Done'" *ngIf="compareDate(data.startDate, data.endDate) == false">
+          </nz-badge>
+        </td>
+        <td>{{ data.title }}</td>
+        <td>{{ data.startDate }}</td>
+        <td>{{ data.endDate }}</td>
+        <td>
+          <nz-space>
+            <nz-space-item>
+              <button nz-button nzType="default" nzShape="circle" (click)="showNdisModal()">
+                <i nz-icon nzType="file-done" nzTheme="outline"></i>
+              </button>
+            </nz-space-item>
+            <nz-space-item>
+              <button nz-button nzType="default" nzShape="circle" (click)="showExtraModal()">
+                <i nz-icon nzType="dollar" nzTheme="outline"></i>
+              </button>
+            </nz-space-item>
+            <nz-space-item>
+              <button nz-button nzType="danger" nzShape="circle">
+                <i nz-icon nzType="delete" nzTheme="outline"></i>
+              </button>
+            </nz-space-item>
+          </nz-space>
+        </td>
+      </tr>
+      <tr [nzExpand]="data.expand">
+        <nz-table nzSize="middle" [nzShowPagination]="false" [nzData]="listOfData">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Category</th>
+              <th>Inspector Email</th>
+              <th>Absent</th>
+              <th>Support</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+  <tbody>
+    <tr>
+      <td>{{ data.type }}</td>
+      <td>{{ data.category }}</td>
+      <td>{{ data.inspector.email }}</td>
+      <td>{{ data.absent }}</td>
+      <td>{{ data.support }}</td>
+      <td>{{ data.description }}</td>
+    </tr>
+  </tbody>
+</nz-table>
+</tr>
+</ng-container>
+</tbody>
+</nz-table>
+
+<nz-modal [(nzVisible)]="isNdisBillVisible" nzTitle="NDIS Billing" (nzOnCancel)="handleNdisCancel()" (nzOnOk)="handleNdisOk()">
+  <ng-container *nzModalContent>
+    <p>Content one</p>
+    <p>Content two</p>
+    <p>Content three</p>
+  </ng-container>
+</nz-modal>
+
+<nz-modal [(nzVisible)]="isExtraBillVisible" nzTitle="Extra Billing" (nzOnCancel)="handleExtraCancel()" (nzOnOk)="handleExtraOk()">
+  <ng-container *nzModalContent>
+    <p>Content one</p>
+    <p>Content two</p>
+    <p>Content three</p>
+  </ng-container>
+</nz-modal>

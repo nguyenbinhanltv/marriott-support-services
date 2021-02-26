@@ -4,7 +4,7 @@
   [nzFooter]="true ? 'Here is Footer' : null" [nzTitle]="true ? 'Enquiry List' : null" [nzSize]="'default'"
   (nzCurrentPageDataChange)="currentPageDataChange($event)">
   <thead>
-    <tr *ngIf="true">
+    <tr>
       <th nzWidth="40px" *ngIf="true" [nzLeft]="fixedColumn"></th>
       <th [nzLeft]="fixedColumn">Name</th>
       <th>Email</th>
@@ -26,7 +26,7 @@
         </td>
         <td>{{ data.submitTime }}</td>
       </tr>
-      <tr *ngIf="true" [nzExpand]="data.expand">
+      <tr [nzExpand]="data.expand">
         <span>{{ data.message }}</span>
       </tr>
     </ng-container>

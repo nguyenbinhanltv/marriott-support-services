@@ -1,0 +1,104 @@
+<button nz-button nzType="primary" (click)="showModal()" style="margin-bottom: 5px;">
+  <span>Add Activity</span>
+</button>
+<nz-modal [(nzVisible)]="isVisible" [nzWidth]="'80%'" nzTitle="Activity Form" (nzOnCancel)="handleCancel()"
+  [nzOkDisabled]="current !== 2" (nzOnOk)="submitForm(validateForm.value)" [nzOkLoading]="isOkLoading">
+  <nz-steps [nzCurrent]="current" nzProgressDot (nzIndexChange)="onIndexChange($event)">
+    <nz-step nzTitle="Step 1" nzDescription="Employment"></nz-step>
+    <nz-step nzTitle="Step 2" nzDescription="Activity"></nz-step>
+    <nz-step nzTitle="Step 3" nzDescription="Activity time"></nz-step>
+  </nz-steps>
+  <div class="steps-content">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+      <nz-form-item *ngIf="current == 1">
+        <nz-form-label [nzSpan]="7" nzRequired>Activity Title</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+          nzErrorTip="Please input your title!">
+          <input nz-input formControlName="title" placeholder="Input activity title"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="current == 1">
+        <nz-form-label [nzSpan]="7" nzRequired>Activity Type</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+          nzErrorTip="Please choose your activity type!">
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select activity type" formControlName="type">
+            <nz-option *ngFor="let act of activityTypes" [nzLabel]="act" [nzValue]="act"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="current == 1">
+        <nz-form-label [nzSpan]="7" nzRequired>Activity Category</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+          nzErrorTip="Please choose your activity category!">
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select activity category" formControlName="category">
+            <nz-option *ngFor="let act of activityCategories" [nzLabel]="act" [nzValue]="act"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="current == 0">
+        <nz-form-label [nzSpan]="7" nzRequired>Client Email</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+          nzErrorTip="Please choose your client email!">
+          <nz-select [nzMaxTagCount]="3" [nzMaxTagPlaceholder]="tagPlaceHolder" nzMode="multiple"
+            nzPlaceHolder="Select client email" formControlName="client">
+            <nz-option *ngFor="let cl of client" [nzLabel]="cl.email" [nzValue]="cl"></nz-option>
+          </nz-select>
+          <ng-template #tagPlaceHolder let-selectedList> and {{ selectedList.length }} more selected </ng-template>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="current == 0">
+        <nz-form-label [nzSpan]="7" nzRequired>Inspector Email</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+          nzErrorTip="Please choose your inspector email!">
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select inspector email" formControlName="inspector">
+            <nz-option *ngFor="let inspector of allStaff" [nzLabel]="inspector.email" [nzValue]="inspector"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="current == 0">
+        <nz-form-label [nzSpan]="7" nzRequired>Absent</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+          nzErrorTip="Please choose attendance!">
+          <nz-radio-group formControlName="absent">
+            <label nz-radio nzValue="true">Yes</label>
+            <label nz-radio nzValue="false">No</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="current == 0">
+        <nz-form-label [nzSpan]="7" nzRequired>Absent Notice</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating...">
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select absent notice">
+            <nz-option nzLabel="Short noicetice" nzValue="Short noicetice"></nz-option>
+            <nz-option nzLabel="Acceptatble notice" nzValue="Acceptatble notice"></nz-option>
+            <nz-option nzLabel="Cancel service" nzValue="Cancel service"></nz-option>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="current == 0">
+        <nz-form-label [nzSpan]="7" nzRequired>Support Radio</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+          nzErrorTip="Please input support number!">
+          <nz-input-number formControlName="support" [nzMin]="1" [nzStep]="1" nzPlaceHolder="1 to ?"
+            style="width: 100%;">
+          </nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="current == 2">
+        <nz-form-label [nzSpan]="7" nzRequired>Description</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+          nzErrorTip="Please input description!">
+          <nz-textarea-count [nzMaxCharacterCount]="100">
+            <textarea rows="4" formControlName="description" nz-input></textarea>
+          </nz-textarea-count>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="current == 2">
+        <nz-form-label [nzSpan]="7" nzRequired>Time</nz-form-label>
+        <nz-form-control [nzSpan]="12">
+          <nz-range-picker nzShowTime formControlName="time" style="width: 100%;"></nz-range-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</nz-modal>

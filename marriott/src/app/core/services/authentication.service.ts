@@ -62,11 +62,13 @@ export class AuthenticationService {
   }
 
   private getAdminFromLocalStorage(): void {
-    this.admin = JSON.parse(localStorage.getItem('admin') as string);
+    this.admin = JSON.parse(localStorage.getItem('admin') as unknown as string);
   }
 
   private getTokenFromLocalStorage(): void {
-    this.token = localStorage.getItem('token');
+    if (localStorage.length) {
+      this.token = localStorage.getItem('token');
+    }
   }
 
   private getAdminInfo(token: string): Observable<unknown> {
