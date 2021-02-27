@@ -3,6 +3,8 @@ export interface Client {
   email: string;
   firstName: string;
   lastName: string;
-  nickName: string;
+  contactDetail: string;
+  NDISNo: string;
+  marriottDivision: string;
   displayName: string;
 }

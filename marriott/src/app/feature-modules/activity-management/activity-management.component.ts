@@ -16,11 +16,13 @@ export class ActivityManagementComponent implements OnInit {
   isExtraBillVisible = false;
 
   constructor(
-    private activityService: ActivityService
+    public activityService: ActivityService
   ) { }
 
   ngOnInit(): void {
-    this.activityService.getAllActivities().subscribe(data => this.listOfData = data);
+    this.activityService.getAllActivities().subscribe(data => {this.listOfData = data;
+      console.log(this.activityService.calNdisPrice(this.listOfData[0].support, this.listOfData[0].startDate, this.listOfData[0].endDate));
+    });
   }
 
   currentPageDataChange($event: any): void {

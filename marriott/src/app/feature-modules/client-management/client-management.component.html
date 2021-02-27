@@ -5,17 +5,28 @@
   (nzCurrentPageDataChange)="currentPageDataChange($event)">
   <thead>
     <tr>
-      <th [nzLeft]="fixedColumn">Full name</th>
+      <th>Full name</th>
       <th>Email</th>
-      <th [nzRight]="fixedColumn">Nick name</th>
+      <th>Contact Details</th>
+      <th>NDIS No.</th>
+      <th>Marriott Division</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
     <ng-container *ngFor="let data of dynamicTable.data">
       <tr>
-        <td [nzLeft]="fixedColumn">{{ data.firstName + ' ' + data.lastName }}</td>
+        <td>{{ data.displayName }}</td>
         <td>{{ data.email }}</td>
-        <td [nzEllipsis]="true">{{ data.nickName }}</td>
+        <td>{{ data.contactDetail }}</td>
+        <td>{{ data.NDISNo }}</td>
+        <td>{{ data.marriottDivision }}</td>
+        <td>
+          <a nz-popconfirm nzPopconfirmTitle="Are you sure?" [nzIcon]="iconTpl" (nzOnconfirm)="clientService.deleteClient(data._id)">Delete</a>
+          <ng-template #iconTpl>
+            <i nz-icon nzType="question-circle-o" style="color: red;"></i>
+          </ng-template>
+        </td>
       </tr>
     </ng-container>
   </tbody>

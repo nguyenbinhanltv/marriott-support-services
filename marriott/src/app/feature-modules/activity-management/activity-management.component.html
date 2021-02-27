@@ -33,60 +33,81 @@
               <button nz-button nzType="default" nzShape="circle" (click)="showNdisModal()">
                 <i nz-icon nzType="file-done" nzTheme="outline"></i>
               </button>
-            </nz-space-item>
-            <nz-space-item>
-              <button nz-button nzType="default" nzShape="circle" (click)="showExtraModal()">
-                <i nz-icon nzType="dollar" nzTheme="outline"></i>
-              </button>
-            </nz-space-item>
-            <nz-space-item>
-              <button nz-button nzType="danger" nzShape="circle">
-                <i nz-icon nzType="delete" nzTheme="outline"></i>
-              </button>
-            </nz-space-item>
-          </nz-space>
-        </td>
-      </tr>
-      <tr [nzExpand]="data.expand">
-        <nz-table nzSize="middle" [nzShowPagination]="false" [nzData]="listOfData">
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Category</th>
-              <th>Inspector Email</th>
-              <th>Absent</th>
-              <th>Support</th>
-              <th>Description</th>
-            </tr>
-          </thead>
+              <nz-modal [(nzVisible)]="isNdisBillVisible" nzTitle="NDIS Billing" (nzOnCancel)="handleNdisCancel()"
+                (nzOnOk)="handleNdisOk()">
+                <ng-container *nzModalContent>
+                  <p>{{ activityService.calNdisPrice(data.support, data.startDate, data.endDate) }}</p>
+                  <nz-table #ndisBillTable [nzData]="data.client">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Contact Address</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
   <tbody>
-    <tr>
-      <td>{{ data.type }}</td>
-      <td>{{ data.category }}</td>
-      <td>{{ data.inspector.email }}</td>
-      <td>{{ data.absent }}</td>
-      <td>{{ data.support }}</td>
-      <td>{{ data.description }}</td>
+    <tr *ngFor="let d of ndisBillTable.data">
+      <td>{{ d.firstName + ' ' + d.lastName }}</td>
+      <td>{{ d.email }}</td>
+      <td>{{ d.displayName }}</td>
+      <td>
+        <a>Action</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>Delete</a>
+      </td>
     </tr>
   </tbody>
 </nz-table>
+</ng-container>
+</nz-modal>
+</nz-space-item>
+<nz-space-item>
+  <button nz-button nzType="default" nzShape="circle" (click)="showExtraModal()">
+    <i nz-icon nzType="dollar" nzTheme="outline"></i>
+  </button>
+  <nz-modal [(nzVisible)]="isExtraBillVisible" nzTitle="Extra Billing" (nzOnCancel)="handleExtraCancel()"
+    (nzOnOk)="handleExtraOk()">
+    <ng-container *nzModalContent>
+      <p>Content one</p>
+      <p>Content two</p>
+      <p>Content three</p>
+    </ng-container>
+  </nz-modal>
+
+</nz-space-item>
+<nz-space-item>
+  <button nz-button nzType="danger" nzShape="circle">
+    <i nz-icon nzType="delete" nzTheme="outline"></i>
+  </button>
+</nz-space-item>
+</nz-space>
+</td>
+</tr>
+<tr [nzExpand]="data.expand">
+  <nz-table nzSize="middle" [nzShowPagination]="false" [nzData]="listOfData">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Inspector Email</th>
+        <th>Absent</th>
+        <th>Support</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ data.type }}</td>
+        <td>{{ data.category }}</td>
+        <td>{{ data.inspector.email }}</td>
+        <td>{{ data.absent }}</td>
+        <td>{{ data.support }}</td>
+        <td>{{ data.description }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
 </tr>
 </ng-container>
 </tbody>
 </nz-table>
-
-<nz-modal [(nzVisible)]="isNdisBillVisible" nzTitle="NDIS Billing" (nzOnCancel)="handleNdisCancel()" (nzOnOk)="handleNdisOk()">
-  <ng-container *nzModalContent>
-    <p>Content one</p>
-    <p>Content two</p>
-    <p>Content three</p>
-  </ng-container>
-</nz-modal>
-
-<nz-modal [(nzVisible)]="isExtraBillVisible" nzTitle="Extra Billing" (nzOnCancel)="handleExtraCancel()" (nzOnOk)="handleExtraOk()">
-  <ng-container *nzModalContent>
-    <p>Content one</p>
-    <p>Content two</p>
-    <p>Content three</p>
-  </ng-container>
-</nz-modal>

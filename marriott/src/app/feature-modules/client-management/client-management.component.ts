@@ -13,7 +13,7 @@ export class ClientManagementComponent implements OnInit {
   displayData: Client[] = [];
 
   constructor(
-    private clientService: ClientService
+    public clientService: ClientService
   ) { }
 
   ngOnInit(): void {

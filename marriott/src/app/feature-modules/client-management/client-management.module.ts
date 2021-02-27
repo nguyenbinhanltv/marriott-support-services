@@ -7,6 +7,9 @@ import { ClientManagementComponent } from './client-management.component';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzImageModule } from 'ng-zorro-antd/image';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 
 @NgModule({
@@ -16,7 +19,10 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     ClientManagementRoutingModule,
     NzTableModule,
     NzImageModule,
-    NzDividerModule
+    NzDividerModule,
+    NzButtonModule,
+    NzIconModule,
+    NzPopconfirmModule
   ]
 })
 export class ClientManagementModule { }
