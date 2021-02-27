@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { map } from 'rxjs/operators';
 import { Client } from 'src/app/core/models/client.model';
 import { ClientService } from '../../core/services/client.service';
 
@@ -13,7 +15,8 @@ export class ClientManagementComponent implements OnInit {
   displayData: Client[] = [];
 
   constructor(
-    public clientService: ClientService
+    private clientService: ClientService,
+    private msg: NzMessageService
   ) { }
 
   ngOnInit(): void {
@@ -22,5 +25,15 @@ export class ClientManagementComponent implements OnInit {
 
   currentPageDataChange($event: any): void {
     this.displayData = $event;
+  }
+
+  deleteClient(_id: string | undefined) {
+    return this.clientService.deleteClient(_id)
+    .pipe(
+      map(res => res.message)
+    )
+    .subscribe(message => {
+      this.msg.success(message);
+    });
   }
 }

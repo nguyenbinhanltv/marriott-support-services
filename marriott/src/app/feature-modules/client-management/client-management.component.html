@@ -1,3 +1,4 @@
+<app-client-form></app-client-form>
 <nz-table #dynamicTable [nzScroll]="{ y: '60vh' }" [nzData]="listOfData" [nzTableLayout]="'auto'" [nzBordered]="true"
   [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'"
   [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true"
@@ -22,7 +23,7 @@
         <td>{{ data.NDISNo }}</td>
         <td>{{ data.marriottDivision }}</td>
         <td>
-          <a nz-popconfirm nzPopconfirmTitle="Are you sure?" [nzIcon]="iconTpl" (nzOnconfirm)="clientService.deleteClient(data._id)">Delete</a>
+          <a nz-popconfirm nzPopconfirmTitle="Are you sure?" [nzIcon]="iconTpl" (nzOnConfirm)="deleteClient(data._id)">Delete</a>
           <ng-template #iconTpl>
             <i nz-icon nzType="question-circle-o" style="color: red;"></i>
           </ng-template>

@@ -33,29 +33,26 @@
               <button nz-button nzType="default" nzShape="circle" (click)="showNdisModal()">
                 <i nz-icon nzType="file-done" nzTheme="outline"></i>
               </button>
-              <nz-modal [(nzVisible)]="isNdisBillVisible" nzTitle="NDIS Billing" (nzOnCancel)="handleNdisCancel()"
-                (nzOnOk)="handleNdisOk()">
+              <nz-modal [nzWidth]="'80%'" [(nzVisible)]="isNdisBillVisible" nzTitle="NDIS Billing"
+                (nzOnCancel)="handleNdisCancel()" (nzOnOk)="handleNdisOk()">
                 <ng-container *nzModalContent>
-                  <p>{{ activityService.calNdisPrice(data.support, data.startDate, data.endDate) }}</p>
-                  <nz-table #ndisBillTable [nzData]="data.client">
+                  <nz-table #ndisBillTable [nzData]="data.client" [nzPaginationType]="'small'">
                     <thead>
                       <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Contact Address</th>
-                        <th>Action</th>
+                        <th>Contact Detail</th>
+                        <th>NDIS No.</th>
+                        <th>Total cost</th>
                       </tr>
                     </thead>
   <tbody>
     <tr *ngFor="let d of ndisBillTable.data">
-      <td>{{ d.firstName + ' ' + d.lastName }}</td>
-      <td>{{ d.email }}</td>
       <td>{{ d.displayName }}</td>
-      <td>
-        <a>Action</a>
-        <nz-divider nzType="vertical"></nz-divider>
-        <a>Delete</a>
-      </td>
+      <td>{{ d.email }}</td>
+      <td>{{ d.contactDetail }}</td>
+      <td>{{ d.NDISNo }}</td>
+      <td>{{ '$' + activityService.calNdisPrice(data.support, data.startDate, data.endDate) }}</td>
     </tr>
   </tbody>
 </nz-table>
@@ -66,20 +63,84 @@
   <button nz-button nzType="default" nzShape="circle" (click)="showExtraModal()">
     <i nz-icon nzType="dollar" nzTheme="outline"></i>
   </button>
-  <nz-modal [(nzVisible)]="isExtraBillVisible" nzTitle="Extra Billing" (nzOnCancel)="handleExtraCancel()"
-    (nzOnOk)="handleExtraOk()">
+  <nz-modal [nzWidth]="'80%'" [(nzVisible)]="isExtraBillVisible" nzTitle="Extra Billing"
+    (nzOnCancel)="handleExtraCancel()" (nzOnOk)="handleExtraOk(data)" [nzOkDisabled]="validateForm.value.time == ''">
     <ng-container *nzModalContent>
-      <p>Content one</p>
-      <p>Content two</p>
-      <p>Content three</p>
+      <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(data)">
+        <nz-tabset>
+          <nz-tab nzTitle="Total Bill">
+            <nz-table #extraBillTable [nzData]="data.invoice.info" [nzPaginationType]="'small'">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Contact Detail</th>
+                  <th>Service</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let d of extraBillTable.data">
+                  <td>{{ d.client.displayName }}</td>
+                  <td>{{ d.client.email }}</td>
+                  <td>{{ d.client.contactDetail }}</td>
+                  <td>{{ d.service.title }}</td>
+                  <td>{{ '$' + d.service.price }}</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    Total Cost: ${{ data.invoice.totalCost }}
+                  </td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </nz-tab>
+          <nz-tab nzTitle="Add Extra Service">
+            <nz-form-item>
+              <nz-form-label [nzSpan]="7" nzRequired>Time</nz-form-label>
+              <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+                nzErrorTip="Please choosen time or delete this field.">
+                <nz-date-picker nzFormat="yyyy-MM-dd HH:mm:ss" nzShowTime placeholder="Time" formControlName="time"
+                  style="width: 100%;">
+                </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="7" nzRequired>Service
+              </nz-form-label>
+              <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+                nzErrorTip="Please choosen service name or delete this field.">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select marriott service" formControlName="service">
+                  <nz-option *ngFor="let s of services" [nzLabel]="s.title" [nzValue]="s"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSpan]="7" nzRequired>Client Email
+              </nz-form-label>
+              <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+                nzErrorTip="Please choosen client email or delete this field.">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select client email" formControlName="client">
+                  <nz-option *ngFor="let cl of data.client" [nzLabel]="cl.email" [nzValue]="cl"></nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </nz-tab>
+        </nz-tabset>
+      </form>
     </ng-container>
   </nz-modal>
 
 </nz-space-item>
-<nz-space-item>
-  <button nz-button nzType="danger" nzShape="circle">
-    <i nz-icon nzType="delete" nzTheme="outline"></i>
-  </button>
+<nz-space-item style="display: flex; justify-content: center; align-items: center;">
+  <a nz-popconfirm nzPopconfirmTitle="Are you sure?" [nzIcon]="iconTpl">Delete</a>
+  <ng-template #iconTpl>
+    <i nz-icon nzType="delete" nzTheme="outline" style="color: red;"></i>
+  </ng-template>
 </nz-space-item>
 </nz-space>
 </td>

@@ -26,6 +26,6 @@ export class ClientService {
   }
 
   deleteClient(_id: string | undefined): Observable<any> {
-    return this.http.post<any>(environment.apiEndpoint + 'client/delete', _id);
+    return this.http.post<any>(environment.apiEndpoint + 'client/delete', {_id});
   }
 }

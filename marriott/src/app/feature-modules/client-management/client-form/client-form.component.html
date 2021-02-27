@@ -1,0 +1,57 @@
+<button nz-button nzType="primary" (click)="showModal()" style="margin-bottom: 5px;">
+  <span>Add Client</span>
+</button>
+<nz-modal [(nzVisible)]="isVisible" [nzWidth]="'80%'" nzTitle="Client Form" (nzOnCancel)="handleCancel()"
+  (nzOnOk)="submitForm(validateForm.value)" [nzOkDisabled]="validateForm.value.NDISNo == ''" [nzOkLoading]="isOkLoading">
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Client Display Name</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+        nzErrorTip="Please input your display name!">
+        <input nz-input formControlName="displayName" placeholder="Input display name" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Client First Name</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+        nzErrorTip="Please input your first name!">
+        <input nz-input formControlName="firstName" placeholder="Input first name" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Client Last Name</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+        nzErrorTip="Please input your last name!">
+        <input nz-input formControlName="lastName" placeholder="Input last name" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Client Email</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+        nzErrorTip="Please input your client email!">
+        <input nz-input formControlName="email" placeholder="Input email" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Client Contact Detail</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+        nzErrorTip="Please input your contact detail!">
+        <input nz-input formControlName="contactDetail" placeholder="Input contact detail" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Client NDIS No.</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+        nzErrorTip="Please input NDIS number!">
+        <input nz-input formControlName="NDISNo" placeholder="Input NDIS number" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSpan]="7" nzRequired>Client Marriott Division</nz-form-label>
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+        nzErrorTip="Please input marriott division!">
+        <input nz-input formControlName="marriottDivision" placeholder="Input marriott division" />
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

@@ -31,6 +31,10 @@ export class ActivityService {
     return this.http.post<any>(environment.apiEndpoint + 'activities/delete', _id);
   }
 
+  updateActivity(activity: Activity): Observable<any> {
+    return this.http.post<any>(environment.apiEndpoint + 'activities/update', activity);
+  }
+
   getActive(startDate: string, endDate: string): number | number[] {
     const sd = new Date(startDate).getDay();
     const ed = new Date(endDate).getDay();
@@ -57,5 +61,15 @@ export class ActivityService {
     }
 
     return null;
+  }
+
+  calExtraPrice(info: any) {
+    let price = 0;
+
+    for(let i of info) {
+      price += i.service.price;
+    }
+
+    return price;
   }
 }

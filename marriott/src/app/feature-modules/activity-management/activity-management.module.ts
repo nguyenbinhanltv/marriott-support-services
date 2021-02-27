@@ -23,6 +23,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzStepsModule } from 'ng-zorro-antd/steps';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 
 @NgModule({
   declarations: [ActivityManagementComponent, ActivityFormComponent],
@@ -44,7 +46,9 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
     NzInputNumberModule,
     NzStepsModule,
     NzIconModule,
-    NzSpaceModule
+    NzSpaceModule,
+    NzTabsModule,
+    NzPopconfirmModule
   ],
   providers: [NzMessageService]
 })
