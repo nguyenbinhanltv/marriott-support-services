@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       return of(true);
     }
 
-    return of(true);
+    return of(false);
   }
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       return of(true);
     }
 
-    return of(true);
+    return of(false);
   }
 
 }

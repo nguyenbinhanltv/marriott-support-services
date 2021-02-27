@@ -1,4 +1,10 @@
-<app-client-form></app-client-form>
+<div style="display: flex; justify-content: space-between;">
+  <app-client-form></app-client-form>
+  <button nz-button nzType="primary" (click)="export()">
+    <i nz-icon nzType="cloud-download"></i>
+    Get file excel
+  </button>
+</div>
 <nz-table #dynamicTable [nzScroll]="{ y: '60vh' }" [nzData]="listOfData" [nzTableLayout]="'auto'" [nzBordered]="true"
   [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'"
   [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true"
@@ -23,7 +29,8 @@
         <td>{{ data.NDISNo }}</td>
         <td>{{ data.marriottDivision }}</td>
         <td>
-          <a nz-popconfirm nzPopconfirmTitle="Are you sure?" [nzIcon]="iconTpl" (nzOnConfirm)="deleteClient(data._id)">Delete</a>
+          <a nz-popconfirm nzPopconfirmTitle="Are you sure?" [nzIcon]="iconTpl"
+            (nzOnConfirm)="deleteClient(data._id)">Delete</a>
           <ng-template #iconTpl>
             <i nz-icon nzType="question-circle-o" style="color: red;"></i>
           </ng-template>

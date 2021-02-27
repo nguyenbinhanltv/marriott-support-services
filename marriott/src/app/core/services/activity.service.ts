@@ -46,7 +46,7 @@ export class ActivityService {
     return [sd, ed];
   }
 
-  calNdisPrice(support: number, startDate: string, endDate: string) {
+  calNdisPrice(support: number, startDate: string, endDate: string): number | null {
     const time = (new Date(endDate).getTime() - new Date(startDate).getTime()) / 3600000 / 2;
     let pricing: any;
     activityPricing.map(act => {
@@ -63,7 +63,7 @@ export class ActivityService {
     return null;
   }
 
-  calExtraPrice(info: any) {
+  calExtraPrice(info: any): number {
     let price = 0;
 
     for(let i of info) {
@@ -71,5 +71,62 @@ export class ActivityService {
     }
 
     return price;
+  }
+
+  activityPipe(activities: Activity[]): any[] {
+    const result: any[] = [];
+    for (let act of activities) {
+      result.push({
+        category: act.category,
+        description: act.description,
+        startDate: act.startDate,
+        endDate: act.endDate,
+        support: act.support,
+        type: act.type,
+        title: act.title,
+        inspector: act.inspector.email,
+        totalCost: act.invoice.totalCost
+      });
+    }
+
+    return result;
+  }
+
+  ndisBillPipe(activity: Activity, activityService: any) {
+    const result: any[] = [];
+    for (let act of activity.client) {
+      result.push({
+        name: act.displayName,
+        email: act.email,
+        contactDetail: act.contactDetail,
+        NDISNo: act.NDISNo,
+        marriottDivision: act.marriottDivision,
+        totalCost: activityService.calNdisPrice(activity.support, activity.startDate, activity.endDate)
+      });
+    }
+
+    return result;
+  }
+
+  extraBillPipe(activity: Activity) {
+    const result: any[] = [];
+    for (let act of activity.invoice.info) {
+      result.push({
+        name: act.client.displayName,
+        email: act.client.email,
+        contactDetail: act.client.contactDetail,
+        NDISNo: act.client.NDISNo,
+        marriottDivision: act.client.marriottDivision,
+        time: act.time,
+        service: act.service.title,
+        price: act.service.price
+      });
+    }
+
+    result.push({
+      totalCost: activity.invoice.totalCost
+    });
+
+    return result;
   }
 }

@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Activity, Invoice, Quotation } from 'src/app/core/models/activity.model';
 import { Client } from 'src/app/core/models/client.model';
 import { ActivityService } from 'src/app/core/services/activity.service';
+import { ExportService } from 'src/app/core/services/export.service';
 import { servicePrices } from '../../core/dummy/data';
 
 @Component({
@@ -26,7 +27,8 @@ export class ActivityManagementComponent implements OnInit {
   constructor(
     public activityService: ActivityService,
     private fb: FormBuilder,
-    private msg: NzMessageService
+    private msg: NzMessageService,
+    private exportService: ExportService
   ) { }
 
   ngOnInit(): void {
@@ -102,5 +104,17 @@ export class ActivityManagementComponent implements OnInit {
       map(res => res.message)
     )
     .subscribe(mes => this.msg.success(mes));
+  }
+
+  export() {
+    this.exportService.exportExcel(this.activityService.activityPipe(this.listOfData), 'activities');
+  }
+
+  exportNdisBill(activity: Activity) {
+    this.exportService.exportExcel(this.activityService.ndisBillPipe(activity, this.activityService), 'ndis-billing');
+  }
+
+  exportExtraBill(activity: Activity) {
+    this.exportService.exportExcel(this.activityService.extraBillPipe(activity), 'extra-billing');
   }
 }

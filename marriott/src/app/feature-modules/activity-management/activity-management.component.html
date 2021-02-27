@@ -1,4 +1,10 @@
-<app-activity-form></app-activity-form>
+<div style="display: flex; justify-content: space-between;">
+  <app-activity-form></app-activity-form>
+  <button nz-button nzType="primary" (click)="export()">
+    <i nz-icon nzType="cloud-download"></i>
+    Get file excel
+  </button>
+</div>
 <nz-table #dynamicTable [nzScroll]="{ y: '60vh' }" [nzData]="listOfData" [nzTableLayout]="'auto'" [nzBordered]="true"
   [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'"
   [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true"
@@ -36,6 +42,10 @@
               <nz-modal [nzWidth]="'80%'" [(nzVisible)]="isNdisBillVisible" nzTitle="NDIS Billing"
                 (nzOnCancel)="handleNdisCancel()" (nzOnOk)="handleNdisOk()">
                 <ng-container *nzModalContent>
+                  <button nz-button nzType="primary" (click)="exportNdisBill(data)">
+                    <i nz-icon nzType="cloud-download"></i>
+                    Get file excel
+                  </button>
                   <nz-table #ndisBillTable [nzData]="data.client" [nzPaginationType]="'small'">
                     <thead>
                       <tr>
@@ -66,6 +76,10 @@
   <nz-modal [nzWidth]="'80%'" [(nzVisible)]="isExtraBillVisible" nzTitle="Extra Billing"
     (nzOnCancel)="handleExtraCancel()" (nzOnOk)="handleExtraOk(data)" [nzOkDisabled]="validateForm.value.time == ''">
     <ng-container *nzModalContent>
+      <button nz-button nzType="primary" (click)="exportExtraBill(data)">
+        <i nz-icon nzType="cloud-download"></i>
+        Get file excel
+      </button>
       <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(data)">
         <nz-tabset>
           <nz-tab nzTitle="Total Bill">
