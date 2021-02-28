@@ -16,6 +16,8 @@ export interface Activity {
   quotation: Quotation[];
   invoice: Invoice;
   expand: boolean;
+  isExtraBillVisible?: boolean;
+  isNdisBillVisible?: boolean;
 }
 
 export interface Quotation {

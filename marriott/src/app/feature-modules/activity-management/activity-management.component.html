@@ -36,11 +36,11 @@
         <td>
           <nz-space>
             <nz-space-item>
-              <button nz-button nzType="default" nzShape="circle" (click)="showNdisModal()">
+              <button nz-button nzType="default" nzShape="circle" (click)="showNdisModal(data)">
                 <i nz-icon nzType="file-done" nzTheme="outline"></i>
               </button>
-              <nz-modal [nzWidth]="'80%'" [(nzVisible)]="isNdisBillVisible" nzTitle="NDIS Billing"
-                (nzOnCancel)="handleNdisCancel()" (nzOnOk)="handleNdisOk()">
+              <nz-modal [nzWidth]="'80%'" [(nzVisible)]="data.isNdisBillVisible" nzTitle="NDIS Billing"
+                (nzOnCancel)="handleNdisCancel(data)" (nzOnOk)="handleNdisOk(data)">
                 <ng-container *nzModalContent>
                   <button nz-button nzType="primary" (click)="exportNdisBill(data)">
                     <i nz-icon nzType="cloud-download"></i>
@@ -70,11 +70,11 @@
 </nz-modal>
 </nz-space-item>
 <nz-space-item>
-  <button nz-button nzType="default" nzShape="circle" (click)="showExtraModal()">
+  <button nz-button nzType="default" nzShape="circle" (click)="showExtraModal(data)">
     <i nz-icon nzType="dollar" nzTheme="outline"></i>
   </button>
-  <nz-modal [nzWidth]="'80%'" [(nzVisible)]="isExtraBillVisible" nzTitle="Extra Billing"
-    (nzOnCancel)="handleExtraCancel()" (nzOnOk)="handleExtraOk(data)" [nzOkDisabled]="validateForm.value.time == ''">
+  <nz-modal [nzWidth]="'80%'" [(nzVisible)]="data.isExtraBillVisible" nzTitle="Extra Billing"
+    (nzOnCancel)="handleExtraCancel(data)" (nzOnOk)="handleExtraOk(data)" [nzOkDisabled]="validateForm.value.time == ''">
     <ng-container *nzModalContent>
       <button nz-button nzType="primary" (click)="exportExtraBill(data)">
         <i nz-icon nzType="cloud-download"></i>

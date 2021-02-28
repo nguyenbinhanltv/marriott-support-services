@@ -54,29 +54,29 @@ export class ActivityManagementComponent implements OnInit {
     return false;
   }
 
-  showExtraModal(): void {
-    this.isExtraBillVisible = true;
+  showExtraModal(data: Activity): void {
+    data.isExtraBillVisible = true;
   }
 
   handleExtraOk(data: Activity): void {
-    this.isExtraBillVisible = false;
+    data.isExtraBillVisible = false;
     this.submitForm(data);
   }
 
-  handleExtraCancel(): void {
-    this.isExtraBillVisible = false;
+  handleExtraCancel(data: Activity): void {
+    data.isExtraBillVisible = false;
   }
 
-  showNdisModal(): void {
-    this.isNdisBillVisible = true;
+  showNdisModal(data: Activity): void {
+    data.isNdisBillVisible = true;
   }
 
-  handleNdisOk(): void {
-    this.isNdisBillVisible = false;
+  handleNdisOk(data: Activity): void {
+    data.isNdisBillVisible = false;
   }
 
-  handleNdisCancel(): void {
-    this.isNdisBillVisible = false;
+  handleNdisCancel(data: Activity): void {
+    data.isNdisBillVisible = false;
   }
 
   submitForm(data: Activity): void {

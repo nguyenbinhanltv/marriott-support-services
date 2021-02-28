@@ -17,9 +17,9 @@ export class AuthenticationService {
   constructor(
     private http: HttpClient,
     private router: Router
-    ) {
-      this.getTokenFromLocalStorage();
-      this.getAdminFromLocalStorage();
+  ) {
+    this.getTokenFromLocalStorage();
+    this.getAdminFromLocalStorage();
   }
 
   public getAllStaff(): Observable<any> {
@@ -47,12 +47,12 @@ export class AuthenticationService {
         })
       );
 
-      const combined$ = outer$.pipe(
-        map((res: any) => this.getAdminInfo(res.data.token)),
-        concatAll()
-      );
+    const combined$ = outer$.pipe(
+      map((res: any) => this.getAdminInfo(res.data.token)),
+      concatAll()
+    );
 
-      return combined$;
+    return combined$;
   }
 
   public signOut(): void {
