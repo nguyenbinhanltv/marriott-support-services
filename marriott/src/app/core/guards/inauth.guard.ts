@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
 
@@ -8,7 +8,7 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class InauthGuard implements CanActivate, CanActivateChild {
 
-  constructor(private authService: AuthenticationService) {
+  constructor(private authService: AuthenticationService, private router: Router) {
 
   }
   canActivate(
@@ -18,6 +18,7 @@ export class InauthGuard implements CanActivate, CanActivateChild {
       return of(true);
     }
 
+    this.router.navigateByUrl("admin");
     return of(false);
   }
   canActivateChild(
@@ -27,6 +28,7 @@ export class InauthGuard implements CanActivate, CanActivateChild {
       return of(true);
     }
 
+    this.router.navigateByUrl("admin");
     return of(false);
   }
 

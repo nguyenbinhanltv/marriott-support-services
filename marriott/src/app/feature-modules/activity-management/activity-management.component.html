@@ -8,7 +8,7 @@
 <nz-table #dynamicTable [nzScroll]="{ y: '60vh' }" [nzData]="listOfData" [nzTableLayout]="'auto'" [nzBordered]="true"
   [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'"
   [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true"
-  [nzFooter]="true ? 'Here is Footer' : null" [nzTitle]="true ? 'Activity List' : null" [nzSize]="'default'"
+  [nzFooter]="null" [nzTitle]="true ? 'Activity List' : null" [nzSize]="'default'"
   (nzCurrentPageDataChange)="currentPageDataChange($event)">
   <thead>
     <tr>
