@@ -6,7 +6,7 @@
 
 export interface AdminUser {
   _id?: string; // Type string
-  avatarPath?: string | null;
+  avatarPath: string | "";
   displayName: string; // Type string name
   userName: string; // Type string, max 15
   email: string; // Type gmail
@@ -21,6 +21,7 @@ export interface AdminUser {
  */
 const adminUser: AdminUser = {
   _id: "123456",
+  avatarPath: "",
   displayName: "An Nguyen Binh",
   userName: "username",
   email: "username@gmail.com",

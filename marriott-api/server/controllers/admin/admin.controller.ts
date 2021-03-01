@@ -140,6 +140,7 @@ export const login = async (req, res) => {
             userName: queryAdminUser.userName,
             email: queryAdminUser.email,
             phone: queryAdminUser.phone,
+            avatarPath: queryAdminUser.avatarPath
           },
           process.env.ACCESS_TOKEN_SECRET,
           {
@@ -158,6 +159,7 @@ export const login = async (req, res) => {
             userName: queryAdminUser.userName,
             email: queryAdminUser.email,
             phone: queryAdminUser.phone,
+            avatarPath: queryAdminUser.avatarPath
           },
           process.env.REFRESH_TOKEN_SECRET,
           {
@@ -231,3 +233,44 @@ export const verifyToken = async (req, res, next) => {
     });
   }
 };
+
+export const getAllStaff = async (req, res) => {
+  let staffs = [];
+  try {
+    const staffsRef = db.collection(collectionName);
+    return await staffsRef
+      .get()
+      .then((snapshot) =>
+        snapshot.forEach((doc) => {
+          staffs.push({
+            _id: doc.data()._id,
+            displayName: doc.data().displayName,
+            email: doc.data().email,
+            phone: doc.data().phone,
+            userName: doc.data().userName,
+            avatarPath: doc.data().avatarPath
+        });
+        })
+      )
+      .then((doc) =>
+        res.status(200).send({
+          message: "Success",
+          data: staffs,
+          error: null,
+        })
+      )
+      .catch((err) =>
+        res.status(400).send({
+          error: err,
+          message: null,
+          data: null,
+        })
+      );
+  } catch (error) {
+    res.status(400).send({
+      error: error + ", Bad Error",
+      message: null,
+      data: null,
+    });
+  }
+}
