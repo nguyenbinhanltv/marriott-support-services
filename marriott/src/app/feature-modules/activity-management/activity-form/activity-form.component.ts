@@ -74,8 +74,10 @@ export class ActivityFormComponent implements OnInit {
       this.validateForm.controls[key].markAsDirty();
       this.validateForm.controls[key].updateValueAndValidity();
     }
-    console.log(value);
 
-    this.activityService.addActivity(value).subscribe(res => this.msg.success('Add activity successfully'));
+    this.activityService.addActivity(value).subscribe(res => {
+      this.msg.success('Add activity successfully');
+      this.handleCancel();
+    });
   }
 }

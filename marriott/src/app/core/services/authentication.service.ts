@@ -56,9 +56,12 @@ export class AuthenticationService {
   }
 
   public signOut(): void {
-    localStorage.removeItem('admin');
-    localStorage.removeItem('token');
-    this.router.navigate(['']);
+    if (localStorage.getItem('token') && localStorage.getItem('admin')) {
+      localStorage.removeItem('admin');
+      localStorage.removeItem('token');
+
+      this.router.navigate(['']);
+    }
   }
 
   private getAdminFromLocalStorage(): void {

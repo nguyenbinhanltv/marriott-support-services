@@ -14,7 +14,7 @@ export class InauthGuard implements CanActivate, CanActivateChild {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.getAdmin == null) {
+    if (localStorage.getItem('admin') == null) {
       return of(true);
     }
 
@@ -24,7 +24,7 @@ export class InauthGuard implements CanActivate, CanActivateChild {
   canActivateChild(
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.getAdmin == null) {
+    if (localStorage.getItem('admin') == null) {
       return of(true);
     }
 

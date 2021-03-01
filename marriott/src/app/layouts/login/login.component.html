@@ -59,10 +59,10 @@
             <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
               <ng-template #addOnBeforeTemplate>
                 <nz-select formControlName="phoneNumberPrefix" class="phone-select">
+                  <nz-option nzLabel="+61" nzValue="+61"></nz-option>
                   <nz-option nzLabel="+84" nzValue="+84"></nz-option>
                   <nz-option nzLabel="+85" nzValue="+85"></nz-option>
                   <nz-option nzLabel="+86" nzValue="+86"></nz-option>
-                  <nz-option nzLabel="+61" nzValue="+61"></nz-option>
                 </nz-select>
               </ng-template>
               <input formControlName="phoneNumber" id="'phoneNumber'" nz-input />
@@ -124,11 +124,7 @@
     </div>
     <div class="panel right-panel">
       <div class="content">
-        <h3>One of us ?</h3>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-          laboriosam ad deleniti.
-        </p>
+        <h3>Marriott NDIS Management Services</h3>
         <button class="btn transparent" (click)="themeMode = true">
           Sign in
         </button>

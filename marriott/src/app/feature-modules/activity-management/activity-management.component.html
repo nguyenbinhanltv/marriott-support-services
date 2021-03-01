@@ -17,6 +17,7 @@
       <th>Title</th>
       <th>Start Date</th>
       <th>End Date</th>
+
       <th [nzRight]="fixedColumn">Billing</th>
     </tr>
   </thead>
@@ -25,9 +26,11 @@
       <tr>
         <td [nzLeft]="fixedColumn" [(nzExpand)]="data.expand"></td>
         <td>
-          <nz-badge [nzStatus]="'success'" [nzText]="'In Process'" *ngIf="compareDate(data.startDate, data.endDate)">
+          <nz-badge [nzStatus]="'processing'" [nzText]="'In Process'" *ngIf="compareDate(data.startDate, data.endDate) == true">
           </nz-badge>
-          <nz-badge [nzStatus]="'error'" [nzText]="'Done'" *ngIf="compareDate(data.startDate, data.endDate) == false">
+          <nz-badge [nzStatus]="'error'" [nzText]="'Complete'" *ngIf="compareDate(data.startDate, data.endDate) == false">
+          </nz-badge>
+          <nz-badge [nzStatus]="'success'" [nzText]="'Incomplete'" *ngIf="compareDate(data.startDate, data.endDate) == 'Incomplete'">
           </nz-badge>
         </td>
         <td>{{ data.title }}</td>

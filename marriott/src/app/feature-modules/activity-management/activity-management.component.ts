@@ -46,9 +46,13 @@ export class ActivityManagementComponent implements OnInit {
     this.displayData = $event;
   }
 
-  compareDate(startDate: string, endDate: string): boolean {
+  compareDate(startDate: string, endDate: string): boolean | string {
     if (Date.now() > new Date(startDate).getTime() && Date.now() < new Date(endDate).getTime()) {
       return true;
+    }
+
+    if (Date.now() < new Date(startDate).getTime()) {
+      return 'Incomplete';
     }
 
     return false;
