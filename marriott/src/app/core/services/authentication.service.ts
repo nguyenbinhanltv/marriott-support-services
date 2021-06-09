@@ -6,9 +6,10 @@ import { environment } from 'src/environments/environment';
 import { catchError, concatAll, map, take, tap } from 'rxjs/operators';
 import { Admin } from '../models/admin.model';
 import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
   private admin: Admin | null = null;
@@ -16,26 +17,32 @@ export class AuthenticationService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private afAuth: AngularFireAuth
   ) {
     this.getTokenFromLocalStorage();
     this.getAdminFromLocalStorage();
   }
 
   public getAllStaff(): Observable<any> {
-    return this.http.get<any>(environment.apiEndpoint + 'users/admin/all').pipe(
-      map(res => res.data)
-    );
+    return this.http
+      .get<any>(environment.apiEndpoint + 'users/admin/all')
+      .pipe(map((res) => res.data));
+  }
+
+  public addAdmin(admin: any): Observable<any> {
+    return this.http.post<any>(environment.apiEndpoint + 'users/admin', admin);
   }
 
   public login(loginForm: {
-    userName: string,
-    password: string
+    userName: string;
+    password: string;
   }): Observable<unknown> {
-    const outer$ = this.http.post(environment.apiEndpoint + 'users/admin/login', {
-      userName: loginForm.userName,
-      password: loginForm.password
-    })
+    const outer$ = this.http
+      .post(environment.apiEndpoint + 'users/admin/login', {
+        userName: loginForm.userName,
+        password: loginForm.password,
+      })
       .pipe(
         take(1),
         tap((res: any) => {
@@ -59,6 +66,7 @@ export class AuthenticationService {
     if (localStorage.getItem('token') && localStorage.getItem('admin')) {
       localStorage.removeItem('admin');
       localStorage.removeItem('token');
+      this.afAuth.signOut();
 
       this.router.navigate(['']);
     }

@@ -1,18 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { Observable, Observer } from 'rxjs';
 import { Router } from '@angular/router';
 import { EnquiryService } from '../../core/services/enquiry.service';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import {
+  AngularFireStorage,
+  AngularFireUploadTask,
+} from '@angular/fire/storage';
 import { finalize, tap } from 'rxjs/operators';
+
+import { AngularFireAuth } from '@angular/fire/auth';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   themeMode: boolean = true;
@@ -31,13 +42,14 @@ export class LoginComponent implements OnInit {
     private msg: NzMessageService,
     private router: Router,
     private storage: AngularFireStorage,
-  ) { }
+    private afAuth: AngularFireAuth
+  ) {}
 
   ngOnInit(): void {
     this.validateLoginForm = this.fb.group({
       userName: ['', [Validators.required, Validators.minLength(6)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      remember: [true]
+      remember: [true],
     });
 
     this.validateEnquiryForm = this.fb.group({
@@ -51,7 +63,29 @@ export class LoginComponent implements OnInit {
       filePath: ['', [Validators.required]],
       submitTime: ['', [Validators.required]],
       agree: [false],
-      expand: [false]
+      expand: [false],
+    });
+  }
+
+  async loginWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const credetial = await this.afAuth.signInWithPopup(provider);
+    const user = {
+      _id: credetial.user?.uid,
+      avatarPath: credetial.user?.photoURL,
+      displayName: credetial.user?.displayName,
+      email: credetial.user?.email,
+      phone: credetial.user?.phoneNumber,
+      userName: '',
+    };
+    localStorage.setItem('token', JSON.stringify(null));
+    localStorage.setItem('admin', JSON.stringify(user));
+    return this.authService.addAdmin(user).subscribe({
+      next: (val) => {
+        this.msg.success('Login successfully');
+        this.router.navigateByUrl('admin');
+      },
+      error: (e) => this.msg.error('Login fail'),
     });
   }
 
@@ -63,11 +97,11 @@ export class LoginComponent implements OnInit {
 
     if (this.validateLoginForm.value) {
       this.authService.login(this.validateLoginForm.value).subscribe({
-        next: val => {
-          this.msg.success("Login successfully");
+        next: (val) => {
+          this.msg.success('Login successfully');
           this.router.navigateByUrl('admin');
         },
-        error: e => this.msg.error("Login fail")
+        error: (e) => this.msg.error('Login fail'),
       });
     }
   }
@@ -78,20 +112,27 @@ export class LoginComponent implements OnInit {
       this.validateEnquiryForm.controls[i].updateValueAndValidity();
     }
 
-    if (this.validateEnquiryForm.value && this.validateEnquiryForm.controls['filePath']) {
-      this.validateEnquiryForm.controls['submitTime'].setValue(new Date(Date.now()).toLocaleString());
+    if (
+      this.validateEnquiryForm.value &&
+      this.validateEnquiryForm.controls['filePath']
+    ) {
+      this.validateEnquiryForm.controls['submitTime'].setValue(
+        new Date(Date.now()).toLocaleString()
+      );
       this.enquiryService.addEnquity(this.validateEnquiryForm.value).subscribe({
-        next: val => {
-          this.msg.success("Thanks for your enquiry ^^");
+        next: (val) => {
+          this.msg.success('Thanks for your enquiry ^^');
           this.themeMode = true;
         },
-        error: e => this.msg.error("Something wrong")
+        error: (e) => this.msg.error('Something wrong'),
       });
     }
   }
 
   updateConfirmValidator(): void {
-    Promise.resolve().then(() => this.validateEnquiryForm.controls.checkPassword.updateValueAndValidity());
+    Promise.resolve().then(() =>
+      this.validateEnquiryForm.controls.checkPassword.updateValueAndValidity()
+    );
   }
 
   handleChange(event: any): void {
@@ -110,15 +151,21 @@ export class LoginComponent implements OnInit {
       // Progress monitoring
       this.percentage = this.task.percentageChanges() as Observable<number>;
 
-      this.task.snapshotChanges().pipe(
-        tap(console.log),
-        // The file's download URL
-        finalize(async () => {
-          fileRef.getDownloadURL().toPromise().then(url => {
-            this.validateEnquiryForm.controls['filePath'].setValue(url);
-          });
-        }),
-      ).subscribe();
+      this.task
+        .snapshotChanges()
+        .pipe(
+          tap(console.log),
+          // The file's download URL
+          finalize(async () => {
+            fileRef
+              .getDownloadURL()
+              .toPromise()
+              .then((url) => {
+                this.validateEnquiryForm.controls['filePath'].setValue(url);
+              });
+          })
+        )
+        .subscribe();
     } else {
       this.msg.error(`${file.name} file upload failed.`);
     }
