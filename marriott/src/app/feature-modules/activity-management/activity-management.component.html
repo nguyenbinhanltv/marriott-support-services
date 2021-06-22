@@ -7,8 +7,8 @@
 </div>
 <nz-table #dynamicTable [nzScroll]="{ y: '60vh' }" [nzData]="listOfData" [nzTableLayout]="'auto'" [nzBordered]="true"
   [nzSimple]="false" [nzLoading]="false" [nzPaginationType]="'small'" [nzPaginationPosition]="'bottom'"
-  [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true"
-  [nzFooter]="null" [nzTitle]="true ? 'Activity List' : null" [nzSize]="'default'"
+  [nzShowSizeChanger]="true" [nzFrontPagination]="true" [nzShowPagination]="true" [nzFooter]="null"
+  [nzTitle]="true ? 'Activity List' : null" [nzSize]="'default'"
   (nzCurrentPageDataChange)="currentPageDataChange($event)">
   <thead>
     <tr>
@@ -26,11 +26,14 @@
       <tr>
         <td [nzLeft]="fixedColumn" [(nzExpand)]="data.expand"></td>
         <td>
-          <nz-badge [nzStatus]="'processing'" [nzText]="'In Process'" *ngIf="compareDate(data.startDate, data.endDate) == true">
+          <nz-badge [nzStatus]="'processing'" [nzText]="'In Process'"
+            *ngIf="compareDate(data.startDate, data.endDate) == true">
           </nz-badge>
-          <nz-badge [nzStatus]="'error'" [nzText]="'Complete'" *ngIf="compareDate(data.startDate, data.endDate) == false">
+          <nz-badge [nzStatus]="'error'" [nzText]="'Complete'"
+            *ngIf="compareDate(data.startDate, data.endDate) == false">
           </nz-badge>
-          <nz-badge [nzStatus]="'success'" [nzText]="'Incomplete'" *ngIf="compareDate(data.startDate, data.endDate) == 'Incomplete'">
+          <nz-badge [nzStatus]="'success'" [nzText]="'Incomplete'"
+            *ngIf="compareDate(data.startDate, data.endDate) == 'Incomplete'">
           </nz-badge>
         </td>
         <td>{{ data.title }}</td>
@@ -77,7 +80,8 @@
     <i nz-icon nzType="dollar" nzTheme="outline"></i>
   </button>
   <nz-modal [nzWidth]="'80%'" [(nzVisible)]="data.isExtraBillVisible" nzTitle="Extra Billing"
-    (nzOnCancel)="handleExtraCancel(data)" (nzOnOk)="handleExtraOk(data)" [nzOkDisabled]="validateForm.value.time == ''">
+    (nzOnCancel)="handleExtraCancel(data)" (nzOnOk)="handleExtraOk(data)"
+    [nzOkDisabled]="validateForm.value.time == ''">
     <ng-container *nzModalContent>
       <button nz-button nzType="primary" (click)="exportExtraBill(data)">
         <i nz-icon nzType="cloud-download"></i>

@@ -20,8 +20,13 @@ class UsersRoutes {
     // For admin
     this.routes.get("/admin/all", adminController.getAllStaff);
     this.routes.post("/admin/signup", adminController.signUp);
+    this.routes.post("/admin", adminController.createAdmin);
     this.routes.post("/admin/login", adminController.login);
-    this.routes.post("/admin/logedin", adminController.verifyToken, adminController.logedIn);
+    this.routes.post(
+      "/admin/logedin",
+      adminController.verifyToken,
+      adminController.logedIn
+    );
   }
 }
 

@@ -26,6 +26,50 @@ import { clone } from "../../utils/common";
 const db = admin.firestore();
 const collectionName = "admin";
 
+export const createAdmin = async (req, res) => {
+  const body = req.body as AdminUser;
+
+  try {
+    if (
+      (await isAdminAlreadyExists(db, collectionName, "email", body.email)) ||
+      (await isAdminAlreadyExists(
+        db,
+        collectionName,
+        "userName",
+        body.userName
+      ))
+    ) {
+      return res.status(200).send({
+        message: null,
+        data: null,
+        error: "Email or userName already exists",
+      });
+    }
+    return await firebaseHelper.firestore
+      .createDocumentWithID(db, collectionName, body._id, body)
+      .then((doc) =>
+        res.status(200).send({
+          message: "Register successfully",
+          error: null,
+          data: null,
+        })
+      )
+      .catch((err) =>
+        res.status(400).send({
+          error: "Invalid _id",
+          message: null,
+          data: null,
+        })
+      );
+  } catch (error) {
+    res.status(400).send({
+      error: error,
+      data: null,
+      message: null,
+    });
+  }
+};
+
 // Admin register
 export const signUp = async (req, res) => {
   const body = req.body as AdminUser;
@@ -54,7 +98,7 @@ export const signUp = async (req, res) => {
       return res.status(400).send({
         error: error,
         message: null,
-        data: null
+        data: null,
       });
     }
 
@@ -63,7 +107,7 @@ export const signUp = async (req, res) => {
       return res.status(400).send({
         error: "Invalid password",
         message: null,
-        data: null
+        data: null,
       });
     }
 
@@ -84,14 +128,14 @@ export const signUp = async (req, res) => {
             res.status(200).send({
               message: "Register successfully",
               error: null,
-              data: null
+              data: null,
             })
           )
           .catch((err) =>
             res.status(400).send({
               error: "Invalid _id",
               message: null,
-              data: null
+              data: null,
             })
           );
       });
@@ -99,7 +143,7 @@ export const signUp = async (req, res) => {
     res.status(400).send({
       error: error,
       data: null,
-      message: null
+      message: null,
     });
   }
 };
@@ -117,7 +161,7 @@ export const login = async (req, res) => {
       return res.status(400).send({
         error: error,
         message: null,
-        data: null
+        data: null,
       });
     }
 
@@ -140,7 +184,7 @@ export const login = async (req, res) => {
             userName: queryAdminUser.userName,
             email: queryAdminUser.email,
             phone: queryAdminUser.phone,
-            avatarPath: queryAdminUser.avatarPath
+            avatarPath: queryAdminUser.avatarPath,
           },
           process.env.ACCESS_TOKEN_SECRET,
           {
@@ -159,7 +203,7 @@ export const login = async (req, res) => {
             userName: queryAdminUser.userName,
             email: queryAdminUser.email,
             phone: queryAdminUser.phone,
-            avatarPath: queryAdminUser.avatarPath
+            avatarPath: queryAdminUser.avatarPath,
           },
           process.env.REFRESH_TOKEN_SECRET,
           {
@@ -179,27 +223,27 @@ export const login = async (req, res) => {
             ),
           },
           message: null,
-          error: null
+          error: null,
         });
       } else {
         res.status(400).send({
           error: "Password is wrong",
           message: null,
-          data: null
+          data: null,
         });
       }
     } else {
       res.send({
         error: "Account is not exist",
         message: null,
-        data: null
+        data: null,
       });
     }
   } catch (error) {
     res.status(400).send({
       error: error + ", Bad Error",
       message: null,
-      data: null
+      data: null,
     });
   }
 };
@@ -210,13 +254,13 @@ export const logedIn = async (req, res) => {
       return res.status(400).send({
         error: "Invalid token",
         message: null,
-        data: null
+        data: null,
       });
     } else {
       return res.status(200).send({
         message: "Workout",
         data: adminData,
-        error: null
+        error: null,
       });
     }
   });
@@ -248,8 +292,8 @@ export const getAllStaff = async (req, res) => {
             email: doc.data().email,
             phone: doc.data().phone,
             userName: doc.data().userName,
-            avatarPath: doc.data().avatarPath
-        });
+            avatarPath: doc.data().avatarPath,
+          });
         })
       )
       .then((doc) =>
@@ -273,4 +317,4 @@ export const getAllStaff = async (req, res) => {
       data: null,
     });
   }
-}
+};

@@ -28,8 +28,9 @@
           </div>
         </div>
         <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">Log in</button>
+        <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'"
+          (click)="loginWithGoogle()">Log in with Google</button>
       </form>
-      <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" (click)="loginWithGoogle()">Log in with Google</button>
       <form nz-form [formGroup]="validateEnquiryForm" (ngSubmit)="submitEnquiryForm()" class="sign-up-form">
         <h2 class="title">Enquiry</h2>
         <nz-form-item>
